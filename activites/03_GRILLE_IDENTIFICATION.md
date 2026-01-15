@@ -23,9 +23,9 @@
 
 | Concept | Définition | Caractéristique |
 |---------|------------|-----------------|
-| **VulnÃ©rabilitÃ©** | Faiblesse du systÃ¨me | IntrinsÃ¨que (interne) |
+| **VulnÃ©rabilitÃ©** | Faiblesse du systÃ¨me | Intrinsèque (interne) |
 | **Menace** | Ce qui peut exploiter la vulnÃ©rabilitÃ© | Externe |
-| **Risque** | ProbabilitÃ© Ã— Impact | Calculable |
+| **Risque** | ProbabilitÃ©×Impact | Calculable |
 
 ```
 VULNÃ‰RABILITÃ‰ â†’ exploitÃ©e par â†’ MENACE â†’ cause â†’ IMPACT = RISQUE
@@ -35,7 +35,7 @@ VULNÃ‰RABILITÃ‰ â†’ exploitÃ©e par â†’ MENACE â†’ cause �
 
 ```
 â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
-â”‚   RISQUE = VRAISEMBLANCE (V) Ã— IMPACT (I)  â”‚
+â”‚   RISQUE = VRAISEMBLANCE (V)×IMPACT (I)  â”‚
 â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
 ```
 
@@ -95,7 +95,7 @@ VULNÃ‰RABILITÃ‰ â†’ exploitÃ©e par â†’ MENACE â†’ cause �
 | C9 | | | | | |
 
 **Questions d'aide :**
-- OÃ¹ sont les clÃ©s AWS ? Est-ce sÃ©curisÃ© ?
+- OÃ¹ sont les clés AWS ? Est-ce sÃ©curisÃ© ?
 - Le nom de fichier est-il validÃ© ?
 - Quelle est la visibilitÃ© par dÃ©faut des fichiers ?
 
@@ -186,7 +186,7 @@ VULNÃ‰RABILITÃ‰ â†’ exploitÃ©e par â†’ MENACE â†’ cause �
 **Questions d'aide :**
 - Y a-t-il une revue de code systÃ©matique ?
 - Existe-t-il un environnement de staging ?
-- Comment sont partagÃ©s les secrets (clÃ©s API) ?
+- Comment sont partagÃ©s les secrets (clés API) ?
 - Existe-t-il un plan de reprise d'activitÃ© (PRA) ?
 
 ---
