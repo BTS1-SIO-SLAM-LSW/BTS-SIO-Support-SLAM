@@ -1,4 +1,4 @@
-# 📚 GUIDE ÉTUDIANT — SLAM
+# 📚 GUIDE ÉTUDIANT 
 ## Séance 1 : Cartographier la vulnérabilité
 
 **Durée** : 2 heures  
