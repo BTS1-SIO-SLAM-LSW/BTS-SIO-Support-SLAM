@@ -1,7 +1,7 @@
 # DESCRIPTION DU SYSTÈME D'INFORMATION
 ## Startup DevSecure – Plateforme SaaS de gestion de projets
 
-**Document étudiant SLAM – Séance 1**
+**Document étudiant  – Séance 1**
 
 ---
 
