@@ -2,7 +2,7 @@
 ## Séance 1 – Cartographier la vulnérabilité
 ### Analyse de risques et cybersécurité du SI
 
-**BTS SIO – Bloc 1 & 3 – Cybersécurité des services informatiques — SLAM**
+**BTS SIO – Bloc 1 & 3 – Cybersécurité des services informatiques **
 
 ---
 
