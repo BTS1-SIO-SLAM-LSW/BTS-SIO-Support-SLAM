@@ -1,4 +1,4 @@
-# CARTOGRAPHIE DES RISQUES — VERSION SLAM
+# CARTOGRAPHIE DES RISQUES 
 ## Méthode EBIOS simplifiée + Classification OWASP + Analyse SPOF
 
 **Binôme : _________________________ | Date : _______________**
