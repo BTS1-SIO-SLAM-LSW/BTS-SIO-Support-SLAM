@@ -1,144 +1,61 @@
-# 📦 GITHUB — REMISE DE TON TP
+# 📦 Fiche express — remise du TP sur GitHub
 
-**Durée totale** : 30 minutes (avant, pendant, après la séance)
-
----
-
-## 🎯 AVANT LA SÉANCE (15 min)
-
-### 1️⃣ Créer un compte GitHub
-
-1. Allez sur : https://github.com/signup
-2. Remplissez :
-   - Email : votre.email@etudiant.fr
-   - Username : `prenom_nom_bts` (ex: marie_dupont_bts)
-   - Password : minimum 12 caractères
-
-3. Validez l'email reçu
-
-✅ **Compte prêt !**
-
-### 2️⃣ Comprendre les 4 concepts clés
-
-| Concept | Explication | Exemple |
-|---------|-------------|---------|
-| **Dépôt** | Dossier en ligne pour stocker tes fichiers | Comme Google Drive |
-| **Public** | Tout le monde peut voir | Enseignant peut accéder |
-| **Markdown (.md)** | Format de texte simple avec formatage | `# Titre`, `**gras**` |
-| **Commit** | Envoyer/sauvegarder tes fichiers | Click "Commit changes" |
+Objectif : remettre ton travail correctement en **moins de 10 minutes**.
 
 ---
 
-## 🛠️ PENDANT LA SÉANCE (10 min à la fin)
+## ✅ Ce que tu dois faire (essentiel)
 
-### 3️⃣ Créer un dépôt
-
-1. Connectez-vous à GitHub
-2. Cliquez `+` (en haut à droite) → `New repository`
-3. Remplissez :
-   ```
-   Name : TP_DevSecure_Cartographie
-   Public : ✅ (cocher)
-   ```
-4. Cliquez `Create repository`
-
-### 4️⃣ Uploader ta cartographie
-
-1. Cliquez `Add file` → `Upload files`
-2. Sélectionnez ton fichier Markdown (`.md`)
-3. Cliquez `Commit changes`
-
-### 5️⃣ Uploader les images (si tu en as)
-
-1. Cliquez `Add file` → `Create new file`
-2. Écrivez : `images/.gitkeep`
-3. Commit
-4. Uploadez vos images dans ce dossier
+1. Créer (ou ouvrir) ton compte GitHub : https://github.com/signup
+2. Créer un dépôt public nommé `TP_DevSecure_Cartographie`
+3. Uploader ton fichier `.md` de cartographie
+4. Mettre les images dans le dossier `images/` (si besoin)
+5. Envoyer l’URL du dépôt à l’enseignant
 
 ---
 
-## 📧 APRÈS LA SÉANCE (5 min)
+## 🔎 Contrôle rapide du rendu (validation)
 
-### 6️⃣ Envoyer l'URL à l'enseignant
+Ton rendu est **valide** si tout est vrai :
 
-```
-https://github.com/votre_username/TP_DevSecure_Cartographie
-```
+- [ ] Le dépôt s’appelle `TP_DevSecure_Cartographie`
+- [ ] Le dépôt est en **Public**
+- [ ] Le fichier principal est en `.md`
+- [ ] Les images s’affichent correctement (`images/nom_image.png`)
+- [ ] Le fichier contient : binôme, vulnérabilités, OWASP, score risque, recommandations
+- [ ] Le lien envoyé fonctionne
 
 ---
 
-## 📋 FORMAT DE TON FICHIER À REMETTRE
-
-Ton fichier `.md` doit contenir :
+## 🧱 Structure minimale attendue dans le fichier
 
 ```markdown
 # Cartographie des risques — DevSecure
 
-## 👥 Binôme
+## Binôme
 - Étudiant 1 : [Nom]
 - Étudiant 2 : [Nom]
 
-## 🔍 Vulnérabilités
+## Vulnérabilités
+| Vulnérabilité | Composant | OWASP | V | I | Risque |
+|---|---|---|---|---|---|
 
-| Vulnérabilité | Composant | OWASP | V | I | Risque | Niveau |
-|---|---|---|---|---|---|---|
-| Injection SQL | Software | A03 | 4 | 4 | 16 | 🔴 CRITIQUE |
-| [Ajouter autres] | | | | | | |
-
-## 💪 Points forts
-- [À compléter]
-
-## ⚠️ À améliorer
-- [À compléter]
-
-## 🎯 Solutions
-- [À compléter]
+## Recommandations
+- [Action corrective 1]
+- [Action corrective 2]
 ```
 
 ---
 
-## 📝 MARKDOWN — SYNTAXE RAPIDE
+## 🆘 Erreurs fréquentes (à éviter)
 
-```markdown
-# Titre principal
-## Titre 2
-### Titre 3
-
-**gras** — *italique*
-
-- Puce 1
-- Puce 2
-
-| Col1 | Col2 |
-|------|------|
-| A    | B    |
-
-![Image](images/photo.png)
-```
+- Dépôt en privé → le passer en **Public**
+- Fichier en `.docx` → convertir en `.md`
+- Images cassées → vérifier le chemin `images/...`
+- Oubli d’envoi du lien → envoyer l’URL finale à l’enseignant
 
 ---
 
-## 🆘 DÉPANNAGE
+## 📌 URL à envoyer
 
-| Problème | Solution |
-|----------|----------|
-| Dépôt en Private | Settings → Change visibility → Public |
-| Compte pas créé | Allez sur https://github.com/signup |
-| Fichier .docx au lieu de .md | Convertissez avec Pandoc ou Google Docs |
-| Images cassées | Vérifiez chemin : `images/nom.png` |
-| GitHub ne charge pas | Videz le cache (Ctrl+Shift+Delete) |
-
----
-
-## ✅ CHECKLIST REMISE
-
-- [ ] Compte GitHub créé
-- [ ] Dépôt nommé `TP_DevSecure_Cartographie`
-- [ ] Dépôt en **Public**
-- [ ] Fichier `.md` uploadé
-- [ ] Images dans dossier `images/`
-- [ ] URL envoyée à l'enseignant
-
----
-
-**C'est tout ! Simple et efficace ! 🚀**
+`https://github.com/votre_username/TP_DevSecure_Cartographie`
