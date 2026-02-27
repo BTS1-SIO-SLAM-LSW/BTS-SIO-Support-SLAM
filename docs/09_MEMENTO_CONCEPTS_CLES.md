@@ -15,6 +15,18 @@ Ce mémento te sert de **fiche de révision rapide** pendant les activités.
 
 `Risque = Vraisemblance × Impact`
 
+### Définitions flash (faciles à retenir)
+
+- **Actif** : ce qui a de la valeur à protéger (données, appli, serveur)
+- **Attaque** : action malveillante pour exploiter une faiblesse
+- **Exploit** : technique/code utilisé pour déclencher une vulnérabilité
+- **Surface d’attaque** : ensemble des points d’entrée attaquables (API, formulaires, ports)
+- **Correctif (patch)** : mise à jour qui corrige une faille
+- **Faille “zero-day”** : vulnérabilité connue des attaquants avant le correctif
+- **MFA** : vérification en plusieurs facteurs (mot de passe + code/appareil)
+- **SPOF (Single Point of Failure)** : élément unique dont la panne peut bloquer tout le service
+- **Principe du moindre privilège** : donner seulement les droits strictement nécessaires
+
 ---
 
 ## 2) Triade CIA (objectif de la cybersécurité)
