@@ -281,6 +281,7 @@ Consulte la section **🔧 GITHUB — REMISE DE TON TRAVAIL** ci-dessous
 - 📄 02_SI_FICTIF_DEVSECURE.md → La vraie app à analyser
 - 📋 03_GRILLE_IDENTIFICATION.md → Le format
 - 📝 04_TEMPLATE_CARTOGRAPHIE.md → Ton template
+- 🧠 docs/09_MEMENTO_CONCEPTS_CLES.md → Fiche de révision rapide
 
 ### Pour apprendre plus
 - 📖 08_SUPPORT_DE_COURS.md → Tous les concepts
